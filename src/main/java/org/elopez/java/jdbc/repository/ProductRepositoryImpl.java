@@ -58,7 +58,7 @@ public class ProductRepositoryImpl implements Repository<Product> {
     @Override
     public void save(Product entity) {
         try (
-            PreparedStatement pstmt = getConnection().prepareStatement("INSERT INTO products (name, price, creation_date) VALUES (?, ?)");
+            PreparedStatement pstmt = getConnection().prepareStatement("INSERT INTO products (name, price) VALUES (?, ?)");
         ) {
             pstmt.setString(1, entity.getName());
             pstmt.setDouble(2, entity.getPrice());
