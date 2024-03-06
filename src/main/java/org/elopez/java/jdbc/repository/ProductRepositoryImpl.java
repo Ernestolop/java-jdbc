@@ -33,7 +33,6 @@ public class ProductRepositoryImpl implements Repository<Product> {
         }
 
         return products;
-
     }
 
     @Override
@@ -58,10 +57,41 @@ public class ProductRepositoryImpl implements Repository<Product> {
 
     @Override
     public void save(Product entity) {
+        try (
+            PreparedStatement pstmt = getConnection().prepareStatement("INSERT INTO products (name, price, creation_date) VALUES (?, ?)");
+        ) {
+            pstmt.setString(1, entity.getName());
+            pstmt.setDouble(2, entity.getPrice());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void update(Product entity) {
+        try (
+            PreparedStatement pstmt = getConnection().prepareStatement("UPDATE products SET name = ?, price = ? WHERE id = ?");
+        ) {
+            pstmt.setString(1, entity.getName());
+            pstmt.setDouble(2, entity.getPrice());
+            pstmt.setLong(3, entity.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void delete(Product entity) {
+        try (
+            PreparedStatement pstmt = getConnection().prepareStatement("DELETE FROM products WHERE id = ?");
+        ) {
+            pstmt.setLong(1, entity.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public Product loadProduct(ResultSet resultSet) throws SQLException {
