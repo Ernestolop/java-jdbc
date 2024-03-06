@@ -12,7 +12,8 @@ public class Main {
 
         try(Connection connection = DatabaseConnection.getConnection();) {
             Repository<Product> productRepository = new ProductRepositoryImpl();
-            productRepository.findAll().forEach(product -> System.out.println(product.toString()));
+            productRepository.findAll().forEach(System.out::println);
+            System.out.println(productRepository.findById(1L));
         } catch (SQLException e) {
             e.printStackTrace();
         }
