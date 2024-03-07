@@ -1,0 +1,1 @@
+Repository to learn and try things about the Java JDBC
